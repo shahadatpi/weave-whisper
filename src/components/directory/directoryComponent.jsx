@@ -11,3 +11,4 @@ const DirectoryComponent = ({categories}) => {
 };
 
 export default DirectoryComponent;
+
