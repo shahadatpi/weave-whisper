@@ -1,7 +1,6 @@
-import {signInWithGooglePopup} from "../../Utilities/Firebase/FirebaseUtilities.js";
-import {createUserDocumentFromAuth} from "../../Utilities/Firebase/FirebaseUtilities.js";
-import {useRef} from "react";
-
+import { createUserDocumentFromAuth, signInWithGooglePopup} from "../../Utilities/Firebase/FirebaseUtilities.js";
+import SignUp from "../../components/SignUpForm/SignUp.jsx";
+import FormInput from "../../components/formInput/FormInput.jsx";
 const SignIn = () => {
     const logGoogleUser = async()=>{
         const {user}  = await signInWithGooglePopup();
@@ -9,8 +8,9 @@ const SignIn = () => {
     }
     return (
         <div>
-            <h1>Sign Page</h1>
+            <h1>Sign IN Page</h1>
             <button onClick={logGoogleUser}>Sign In With GooglePopup</button>
+            <SignUp></SignUp>
         </div>
     );
 };
