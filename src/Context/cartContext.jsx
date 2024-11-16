@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from 'react';
 import cartItem from "../components/CartItem/CartItem.jsx";
 
-export const addCartItem = (cartItems, productToAdd) => {
+ const addCartItem = (cartItems, productToAdd) => {
     const existingCartItem = cartItems.find(
         (cartItem) => cartItem.id === productToAdd.id
     );
@@ -17,11 +17,32 @@ export const addCartItem = (cartItems, productToAdd) => {
     return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
+
+ const removeCartItem = (cartItems, cartItemToRemove) => {
+    const existingCartItem = cartItems.find(
+        (cartItem) => cartItem.id === cartItemToRemove.id);
+
+    if (existingCartItem.quantity === 1 ) {
+        return cartItems.find((cartItem) => cartItem.id !== cartItemToRemove.id);
+    }
+    return cartItems.map((cartItem) =>
+        cartItem.id === cartItemToRemove.id
+            ? { ...cartItem, quantity: cartItem.quantity - 1 }
+            : cartItem
+    );
+}
+
+const clearCartItem = (cartItems, cartItemToClear) =>
+    cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+
+
 export const CartContext = createContext({
     isCartOpen: false,
     setIsOpen: () => {},
     cartItems: [],
     addItemToCart: () => {},
+    removeItemToCart: () => {},
+    clearItemToCart: () => {},
     cartCount: 0,
 });
 
@@ -37,8 +58,13 @@ export const CartProvider = ({ children }) => {
     }, [cartItems]);
     const addItemToCart = (product) =>
         setCartItems(addCartItem(cartItems, product));
+    const removeItemToCart = (cartItemToRemove) =>
+        setCartItems(removeCartItem(cartItems, cartItemToRemove));
+    const clearItemFromCart = (cartItemToClear) => {
+        setCartItems(clearCartItem(cartItems, cartItemToClear));
+    };
 
-    const value = { isCartOpen, setIsCartOpen, cartItems, addItemToCart, cartCount };
+    const value = { isCartOpen, setIsCartOpen, cartItems, addItemToCart, cartCount, removeItemToCart, clearItemFromCart };
 
     return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
