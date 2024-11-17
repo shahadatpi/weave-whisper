@@ -20,7 +20,7 @@ const CheckOutItem = ({cartItem}) => {
                 {quantity}
                 <div className={'arrow'} onClick={addItemHandler}>&#10095;</div>
             </span>
-            <span className={'price'}>{price}</span>
+            <span className={'price'}>{quantity*price}</span>
             <div className={'remove-button'} onClick={clearItemHandler}>&#10005;</div>
         </div>
     );
